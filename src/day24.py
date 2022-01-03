@@ -38,7 +38,7 @@ def simulate(digits, facs):
     digits_idx = 0
 
     for idx, (div_z, add_x, add_y) in enumerate(facs):
-        # cycle 1: see reversed_cycle1()
+        # cycle 1: see rev_eng_cycle1()
         # z = 26 * z + w + add_y
         if add_x >= 0:
             w = digits[digits_idx]
@@ -46,7 +46,7 @@ def simulate(digits, facs):
             model_numb[idx] = w
             digits_idx += 1
 
-        # cycle 2: see reversed_cycle1()
+        # cycle 2: see rev_eng_cycle2()
         # z % 26 == w - add_x
         else:
             model_numb[idx] = (z % 26) + add_x
@@ -76,8 +76,8 @@ def monad(facs, stdin):
 
     for (dz, ax, ay), w in zip(facs, stdin):
         # both reverse-engineered cycles should compute the same
-        r1 = reversed_cycle1(dz, ax, ay, w, z)
-        r2 = reversed_cycle2(ax, ay, w, z)
+        r1 = rev_eng_cycle1(dz, ax, ay, w, z)
+        r2 = rev_eng_cycle2(ax, ay, w, z)
         assert r1 == r2
 
         z = r1
@@ -85,7 +85,7 @@ def monad(facs, stdin):
     return z
 
 
-def reversed_cycle1(div_z, add_x, add_y, w, z):
+def rev_eng_cycle1(div_z, add_x, add_y, w, z):
     assert 1 <= w <= 9
     # [inp w | mul x 0 | add x z | mod x 26 | div z {DIVZ} | add x {ADDX}]
     x = (z % 26) + add_x
@@ -104,7 +104,7 @@ def reversed_cycle1(div_z, add_x, add_y, w, z):
     return z
 
 
-def reversed_cycle2(add_x, add_y, w, z):
+def rev_eng_cycle2(add_x, add_y, w, z):
     assert 1 <= w <= 9
 
     # inp w | mul x 0 | add x z | mod x 26
