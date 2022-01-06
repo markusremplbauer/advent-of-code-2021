@@ -23,13 +23,17 @@ def part2(data):
 
 def solve(data):
     idx = 0
-    version, type, idx = parse_pkg_header(data, idx)
-    if type == 4:
+    value, _ = get_pkg_value(data, idx)
+    return value
+
+
+def get_pkg_value(data, idx):
+    version, type_id, idx = parse_pkg_header(data, idx)
+    if type_id == 4:
         value, idx = parse_literal_pkg(data, idx)
     else:
-        value, idx = parse_operator_pkg(data, idx, type)
-
-    return value
+        value, idx = parse_operator_pkg(data, idx, type_id)
+    return value, idx
 
 
 def parse_pkg_header(data, idx):
@@ -73,15 +77,6 @@ def parse_operator_pkg(data, idx, p_type_id):
             literals.append(literal)
 
     return perform_operation(p_type_id, literals), idx
-
-
-def get_pkg_value(data, idx):
-    version, type_id, idx = parse_pkg_header(data, idx)
-    if type_id == 4:
-        value, idx = parse_literal_pkg(data, idx)
-    else:
-        value, idx = parse_operator_pkg(data, idx, type_id)
-    return value, idx
 
 
 def perform_operation(type_id, literals):
