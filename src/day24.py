@@ -107,7 +107,7 @@ def rev_eng_cycle1(div_z, add_x, add_y, w, z):
 def rev_eng_cycle2(add_x, add_y, w, z):
     assert 1 <= w <= 9
 
-    # inp w | mul x 0 | add x z | mod x 26
+    # [inp w | mul x 0 | add x z | mod x 26]
     x = z % 26
     #  div z {DIVZ}
     if add_x < 0:
