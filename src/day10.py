@@ -14,22 +14,6 @@ mappings = {
 }
 
 
-def parse_line(line):
-    values = []
-    for e in line:
-        if e in opening:
-            values.append(e)
-        elif e in closing and mappings[e]["opening"] == values[-1]:
-            values.pop()
-        else:
-            return mappings[e]["illegal"], None
-
-    comp = "".join(
-        reversed([k for e in values for k, v in mappings.items() if v["opening"] == e])
-    )
-    return 0, comp
-
-
 @print_calls
 def part1(data):
     err = 0
@@ -55,6 +39,22 @@ def part2(data):
             scores.append(score)
 
     return sorted(scores)[len(scores) // 2]
+
+
+def parse_line(line):
+    values = []
+    for e in line:
+        if e in opening:
+            values.append(e)
+        elif e in closing and mappings[e]["opening"] == values[-1]:
+            values.pop()
+        else:
+            return mappings[e]["illegal"], None
+
+    comp = "".join(
+        reversed([k for e in values for k, v in mappings.items() if v["opening"] == e])
+    )
+    return 0, comp
 
 
 def load(data):
